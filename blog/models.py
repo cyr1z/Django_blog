@@ -43,10 +43,8 @@ class User(models.Model):
 class Article(models.Model):
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    # updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     title = models.CharField(max_length=120)
     text = models.TextField(max_length=10000, null=True)
-    # genres =
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     tag = models.ManyToManyField(Tag)
@@ -71,6 +69,15 @@ class Comment(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     article = models.ForeignKey(Article, on_delete=models.DO_NOTHING)
+    type = models.IntegerField(choices=LIKE_TYPES, default=1)
+
+    def __str__(self):
+        return f"[{self.user.username}]: {self.type}"
+
+
+class CommentLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    comment = models.ForeignKey(Comment, on_delete=models.DO_NOTHING)
     type = models.IntegerField(choices=LIKE_TYPES, default=1)
 
     def __str__(self):

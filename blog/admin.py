@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, Genre, Tag, Article, Like, Comment
+from .models import User, Genre, Tag, Article, Like, Comment, CommentLike
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -14,3 +14,4 @@ admin.site.register(Genre)
 admin.site.register(Tag)
 admin.site.register(Like)
 admin.site.register(Comment)
+admin.site.register(CommentLike)
