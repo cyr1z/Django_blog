@@ -23,6 +23,13 @@ class Genre(models.Model):
         return self.title
 
 
+class Tag(models.Model):
+    tag = models.CharField(max_length=120)
+
+    def __str__(self):
+        return f'#{self.tag}'
+
+
 class User(models.Model):
     email = models.EmailField(max_length=120)
     username = models.CharField(max_length=120)
@@ -36,10 +43,13 @@ class User(models.Model):
 class Article(models.Model):
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    # updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     title = models.CharField(max_length=120)
     text = models.TextField(max_length=10000, null=True)
+    # genres =
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    tag = models.ManyToManyField(Tag)
 
     def __str__(self):
         return f'{self.title}  [{self.author} / {self.genre}]'
@@ -51,6 +61,8 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.DO_NOTHING)
     comment = models.ForeignKey('blog.Comment', related_name='comments_comment', null=True, blank=True,
                                 on_delete=models.DO_NOTHING)
+    created_at = models.DateField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"[{self.user.username}]: {self.text}"
