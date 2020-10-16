@@ -55,7 +55,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    text = models.CharField(max_length=1000)
+    text = models.TextField(max_length=10000)
     article = models.ForeignKey(Article, on_delete=models.DO_NOTHING)
     comment = models.ForeignKey('blog.Comment',
                                 related_name='comments_comment',
